@@ -1,0 +1,553 @@
+				<span style="color:black;font-size:16px;"><a href="javascript:void(0);" @click="toggleTabs('detail1');">预约</a></span> &nbsp;&nbsp;&nbsp;&nbsp;
+login() {
+				var wxCode = this.$options.methods.getWxCode();
+				if(!!wxCode) {
+					//换取wxOpenid并将wxOpenId放入sessionStorage
+
+				} else {
+					//wxCode 为空
+					let wxOpenid = window.sessionStorage.getItem('wxOpenid');
+					if(!!wxOpenId) {
+
+						let isRegistered = checkRegister();
+						if(isRegistered) {
+							//已注册
+							//通过wxOpenId获取用户预约记录
+							this.$options.methods.loadArtMuseumAppointmentList()
+						} else {
+							//未注册跳转注册页面
+							this.$router.push({
+								name: 'register',
+								params: {
+									wxOpenId: wxOpenId
+								}
+							})
+						}
+					} else {
+						//wxOpenid 为空
+						//跳转微信授权
+					}
+				}
+			}
+			
+
+,
+
+		methods: {
+			getWxCode: function() {
+				var name, value;
+				var url = window.location.search;
+				var params = {}
+				if(url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					var arr = str.split("&");
+					for(var i = 0; i < arr.length; i++) {
+						num = arr[i].indexOf("=");
+						if(num > 0) {
+							name = arr[i].substring(0, num);
+							value = arr[i].substr(num + 1);
+							params[name] = value;
+						}
+					}
+					return params.code
+				}
+				return null
+			},
+			loadArtMuseumAppointmentList: function() {
+				axios({
+					url: '/loadArtMuseumAppointmentList',
+					method: 'post',
+					baseURL: 'http:localhost:8081',
+					data: {
+						wxOpenId: this.$store.getters.wxOpenId
+					}
+				}).then((res) => {
+					console.log('load memberCards success!')
+					// 每次加载后 将数据push到 topics 中；topics中是所有要展示的数据
+					res.data.data.forEach((value, index) => {
+						this.appointments.push(value)
+					})
+				}).catch(error => {
+					console.log('load appointment failed!' + error)
+				})
+			},
+			checkRegister: function(wxOpenId) {
+				//异步请求
+				//根据wxOpenid，查询用户是否注册
+				axios({
+					url: '/checkRegister',
+					method: 'post',
+					baseURL: 'http://www.tangfeng.com/api/v1',
+					data: {
+						wxOpenId: wxOpenId
+					}
+				}).then((res) => {
+					//响应是否注册
+					let data = res.data.data;
+					if(data) {
+
+					}
+				}).catch(error => {
+					console.log('load appointment failed!' + error)
+				})
+			},
+			login() {
+				var wxCode = this.$options.methods.getWxCode();
+				if(!!wxCode) {
+					//换取wxOpenid并将wxOpenId放入sessionStorage
+
+				} else {
+					//wxCode 为空
+					let wxOpenid = window.sessionStorage.getItem('wxOpenid');
+					if(!!wxOpenId) {
+
+						let isRegistered = checkRegister();
+						if(isRegistered) {
+							//已注册
+							//通过wxOpenId获取用户预约记录
+							this.$options.methods.loadArtMuseumAppointmentList()
+						} else {
+							//未注册跳转注册页面
+							this.$router.push({
+								name: 'register',
+								params: {
+									wxOpenId: wxOpenId
+								}
+							})
+						}
+					} else {
+						//wxOpenid 为空
+						//跳转微信授权
+					}
+				}
+			}
+
+		},
+
+		created() {
+			this.login()
+		},
+		
+var wxCode = this.$options.methods.getWxCode();
+	if(!!wxCode) {
+		//获取wxOpenId. 存入session中wxOpenid.没有注册的跳转注册。
+		//列表数据
+		var url = "http://localhost:8081/testA";
+		this.$post(url, {
+			"name": "z"
+		}).then((res) => {
+			console.log(res.data.data);
+		})
+
+	} else {
+		let wxOpenid = window.sessionStorage.getItem('wxOpenid');
+		if(!!wxOpenId) {
+			//获取列表数据
+		} else {
+
+		}
+	}
+	
+
+
+login() {
+				var url = "http://localhost:8081/testA";
+				this.$post(url, {
+					"name": "z"
+				}).then((data) => {
+					console.log(data.data.name);
+				})
+			}
+			
+getWxCode: function() {
+				var name, value;
+				var url = window.location.search;
+				var params = {}
+				if(url.indexOf("?") != -1) {
+					var str = url.substr(1);
+					var arr = str.split("&");
+					for(var i = 0; i < arr.length; i++) {
+						num = arr[i].indexOf("=");
+						if(num > 0) {
+							name = arr[i].substring(0, num);
+							value = arr[i].substr(num + 1);
+							params[name] = value;
+						}
+					}
+					return params.code
+				}
+				return null
+			},
+			
+[{
+						id: 1,
+						totalNumber: 2,
+						relationShip: "父母,朋友",
+						minor: '是',
+						visitDate: '2018-09-12',
+						appointmentDate: '2018/01/01'
+					},
+					{
+						id: 2,
+						totalNumber: 3,
+						relationShip: "父母,朋友",
+						minor: '是',
+						visitDate: '2018-09-12',
+						appointmentDate: '2018/01/01'
+					}
+				]
+				
+
+
+name: '李四',
+				birthday: '2018-09-12',
+				sex: '男',
+				cardNumber: '412727199889999',
+				telephone: '156666',
+				personalIndustry: '金融',
+				intention: '细胞存储',
+				livingArea: '青羊区',
+				totalNumber: '2',
+				relationShip: "朋友",
+				minor: '是'
+axios({
+					url: '/getAppointment',
+					method: 'post',
+					baseURL: 'http://www.tangfeng.com/api/v1',
+					data: {
+						'id': this.$route.params.id
+					}
+				}).then((res) => {
+					this.name = res.data.data.cardType
+					this.originalPrice = res.data.data.originalPrice
+					this.sellPrice = res.data.data.sellPrice
+					this.cardDate = res.data.data.cardDate
+					this.balance = res.data.data.balance
+					this.discount = res.data.data.discount
+				}).catch(error => {
+					console.log('load memberCardDetail failed!' + error)
+					alert('load memberCardDetail failed!' + error)
+				})
+			}
+			
+
+this.$router.push({
+							name: 'wyArtMuseumAppointmentCenter'
+						})
+						
+if(data.data.status == "success") {
+						this.msg = "删除成功,去艺术馆预约中心";
+					}
+					
+
+<template lang="html">
+	<div class="membercard-container" ref='membercardContainer'>
+		<tfHeader title="艺术馆参观预约" :show-goback="true" :show-center="false"></tfHeader>
+		<div id="mycard" style="height:800px;overflow-y:auto;">
+			<form id="form">
+				<div class="div-ui">
+					<label for="name">姓名:</label>
+					<input id="name" name="name" type="text" placeholder="" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="age">年龄:</label>
+					<input id="age" name="age" type="text" placeholder="" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="phone">联系电话:</label>
+					<input id="phone" name="phone" type="tel" placeholder="" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="cardNumber">身份证号码:</label>
+					<input id="cardNumber" name="cardNumber" type="text" placeholder="" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="profession">行业:</label>
+					<input id="profession" name="profession" type="text" placeholder="" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="sex">性别:</label>
+					<input id="sex" name="sex" type="radio" value="1" required />男
+					<input id="sex" name="sex" type="radio" value="2" required />女
+				</div>
+				<div class="div-ui">
+					<label for="liveArea">居住区域:</label>
+					<div class="select-div">
+						<select id="firstLevelArea" name="area"></select>
+					</div>
+					<div class="select-div">
+						<select id="secondLevelArea" name="area"></select>
+					</div>
+				</div>
+				<div class="div-ui">
+					<fieldset>
+						<legend>希望了解知识：</legend>
+						<div>
+							<label for="knowlege">细胞储存</label>
+							<input id="knowlege" name="knowlege" type="checkbox" value="1" required />
+						</div>
+
+						<div>
+							<label for="knowlege">基因解密</label>
+							<input name="knowlege" type="checkbox" value="1" required />
+						</div>
+
+						<div>
+							<label for="knowlege">生命健康</label>
+							<input name="knowlege" type="checkbox" value="1" required />
+						</div>
+
+						<div>
+							<label for="knowlege">慢病管理</label>
+							<input name="knowlege" type="checkbox" value="1" required />
+						</div>
+						<div>
+							<label for="knowlege">再生医学</label>
+							<input name="knowlege" type="checkbox" value="1" required />
+						</div>
+
+						<div>
+							<label for="knowlege">其他</label>
+							<input name="knowlege" type="checkbox" value="1" required />
+						</div>
+					</fieldset>
+				</div>
+				<div class="div-ui">
+					<fieldset>
+						<legend>同行：</legend>
+						<div>
+							<label for="companyNumber">同行人数:</label>
+							<input id="companyNumber" name="companyNumber" type="text" placeholder="少于等于三人" required />
+						</div>
+
+						<div>
+							<label for="relationship">同行人关系：</label>
+							<input name="relationship" type="checkbox" value="2" required />伴侣
+							<input name="relationship" type="checkbox" value="2" required />朋友
+							<input name="relationship" type="checkbox" value="2" required />父母
+							<input name="relationship" type="checkbox" value="2" required />子女
+						</div>
+
+						<div>
+							<label for="withYouth">未成年人：</label>
+							<input name="withYouth" type="radio" value="1" required />有
+							<input name="withYouth" type="radio" value="2" required />无
+						</div>
+					</fieldset>
+				</div>
+				<div class="div-ui">
+					<p>
+						<input type="submit" name="submit" value="确认" />
+					</p>
+				</div>
+			</form>
+			<button id='btn'>button</button>
+		</div>
+	</div>
+
+</template>
+
+<script>
+	import tfHeader from './tfHeader.vue'
+	import axios from 'axios'
+
+	export default {
+		data() {
+			return {
+
+			}
+		},
+		created() {
+			//			this.getMemberCardDetail()
+		},
+
+		methods: {
+			getMemberCardDetail() {
+				axios({
+					url: '/getMemberCardDetail',
+					method: 'post',
+					baseURL: 'http://www.tangfeng.com/api/v1',
+					data: {
+						'id': this.$route.params.id
+					}
+				}).then((res) => {
+					this.cardType = res.data.data.cardType
+					this.originalPrice = res.data.data.originalPrice
+					this.sellPrice = res.data.data.sellPrice
+					this.cardDate = res.data.data.cardDate
+					this.balance = res.data.data.balance
+					this.discount = res.data.data.discount
+				}).catch(error => {
+					console.log('load memberCardDetail failed!' + error)
+					alert('load memberCardDetail failed!' + error)
+				})
+			},
+
+			toggleTabs(tabText) {
+				this.currentView = tabText
+			}
+
+		},
+
+		components: {
+			tfHeader
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import "../assets/scss/common.scss";
+		body {
+			height: 780px;
+			width: %100;
+			background-color: #CCCCCC;
+		}
+		body,
+		input,
+		textarea {
+			font-family: "helvetica", arial, helvetica;
+		}
+		#out {
+			/*background-color: #EEEEEE;*/
+			width: 100%;
+			height: 1000px;
+			padding: 8px;
+		}
+		.div-ui {
+			width: 400px;
+			margin: 0, auto;
+			padding: 10px;
+		}
+		label {
+			display: block;
+			float: left;
+			clear: left;
+			text-align: right;
+			width: 100px;
+			margin-right: 10px;
+		}
+		fieldset {
+			border: 1px solid;
+			margin-bottom: 20px;
+			margin: 0 auto;
+		}
+		.select-div {
+			display: inline-block;
+			float: left;
+			width: 100px;
+		}
+</style>
+
+<div>
+						</div>
+
+						<div>
+						</div>
+						<div>
+						</div>
+
+						<div>
+						</div>
+						
+
+<div class="div-ui">
+					<label for="name">姓名:</label>
+					<input id="name" v-model='name' type="text" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="birthday">年龄:</label>
+					<input id="birthday" v-model="birthday" type="text" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="telephone">联系电话:</label>
+					<input id="telephone" v-model="telephone" type="text" required />
+				</div>
+
+				<div class="div-ui">
+					<label for="cardNumber">身份证号码:</label>
+					<input id="cardNumber" v-model="cardNumber" type="text" required />
+				</div>
+<div class="div-ui">
+					<label for="sex">性别:</label>
+					<input id="sex" v-model="sex" type="radio" value="1" required />男
+					<input id="sex" v-model="sex" type="radio" value="2" required />女
+				</div>
+				
+getVerifyCode: function() {
+				if(this._check1()) {
+					this.enabletxtmobile = true
+					axios({
+						url: '/getVerifyCode',
+						method: 'post',
+						data: this.verification.mobile,
+						baseURL: 'http://www.tangfeng.com/api/v1'
+					}).then(res => {
+						let data = res.data
+						if(data.success === true) {
+							alert('验证码已经发送到您的手机！')
+						}
+					}).catch(error => {
+						let data = error.response.data
+						alert(data.error_msg)
+					})
+				}
+			},
+			bindMobile: function() {
+				var wxOpenId = this.$route.params.wxOpenId;
+				if(this._check2()) {
+					axios({
+						url: '/bindMobile',
+						method: 'post',
+						data: this.verification,
+						baseURL: 'http://www.tangfeng.com/api/v1'
+					}).then(res => {
+						let data = res.data
+						if(data.success === true) {
+							window.localStorage.setItem('wxOpenId', )
+							this.$router.replace({
+								name: 'tfMemberCardList',
+								params: {}
+							})
+						}
+					}).catch(error => {
+						let data = error.response.data
+						alert(data.error_msg)
+					})
+				}
+			},
+			
+
+//		var data = await smsUtils.getSmsPlatformResponseData(mobile); //todo
+		var data = {
+			code: 200
+		}
+		if(data.code == 200) {
+			var uuid = uuidUtils.generateUUID();
+			//			var sendMsg = {
+			//				id: uuid,
+			//				sendid: data.msg, //短信id
+			//				mobile: mobile,
+			//				code: data.obj, //平台向用户手机发送的验证码
+			//				verifyTime: Math.floor((new Date()).getTime() / 1000)
+			//			};
+			var sendMsg = {
+				id: '1',
+				sendid: '2',
+				mobile: mobile,
+				code: '123456',
+				verifyTime: Math.floor((new Date()).getTime() / 1000)
+			}
+			//记录手机和验证码
+			var result = await smsMessageDao.save(sendMsg);
+			if(!!result) {
+				console.log("向短信平台发送成功");
+			}
+		}
+		return res.json(new Response(RES_CONFIG.fail, "", "获取验证码失败"));
